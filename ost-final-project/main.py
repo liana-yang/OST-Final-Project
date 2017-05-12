@@ -1,17 +1,17 @@
 import logging
-from ost_final_project.views import HomePageView, EditResourceView, CreateReservationView, ResourceView, EditResourceView
-from ost_final_project.forms import CreateResourceForm, CreateReservationForm
-import ost_final_project.utility as utility
-from ost_final_project.models import Resource
 
+import ost_final_project.utility as utility
 from flask import Flask, render_template, url_for, redirect
-from flask_bootstrap import Bootstrap, WebCDN
+from flask_bootstrap import Bootstrap
+from ost_final_project.forms import CreateResourceForm, CreateReservationForm
+from ost_final_project.models import Resource
+from ost_final_project.views import HomePageView, CreateReservationView, ResourceView, \
+    EditResourceView
 
 
 def create_app():
     app = Flask(__name__)
     Bootstrap(app)
-
     return app
 
 
@@ -61,6 +61,7 @@ def render_edit_resource(resource_id):
 def render_create_reservation(resource_id):
     view = CreateReservationView(resource_id)
     form = CreateReservationForm(csrf_enabled=False)
+    form = utility.add_timerange_validators(form, resource_id)
     if form.validate_on_submit():
         reservation = utility.get_reservation_from_form(form)
         reservation.owner = view.user
