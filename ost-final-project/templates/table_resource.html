@@ -28,9 +28,12 @@
                     {% endfor %}
                 </td>
                 <td>
+                    {% if resource.owner == user %}
+                    <a href="{{ url_for('render_edit_resource', resource_id=resource.key.id()) }}"
+                       class="btn btn-info pull-right" id="edit-resource" role="button">Edit</a>
+                    {% endif %}
                     <a href="/create-reservation/{{ resource.key.id() }}" class="btn btn-warning pull-right"
-                       id="reserve"
-                       role="button">Reserve</a>
+                       id="reserve" role="button">Reserve</a>
                 </td>
             </tr>
             {% endfor %}

@@ -22,9 +22,10 @@
                 <td>{{ reservation.start_time }}</td>
                 <td>{{ reservation.end_time }}</td>
                 <td>
+                    {% if reservation.owner == user %}
                     <a href="{{ url_for('delete_reservation', reservation_id=reservation.key.id()) }}"
-                       class="btn btn-danger pull-right" id="delete-reservation"
-                       role="button">Delete</a>
+                       class="btn btn-danger pull-right" id="delete-reservation" role="button">Delete</a>
+                    {% endif %}
                 </td>
             </tr>
             {% endfor %}

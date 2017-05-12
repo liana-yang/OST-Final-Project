@@ -25,7 +25,7 @@ class HomePageView(object):
 
     def get_my_reservations(self):
         # TODO(Ling): Implement multiple pages.
-        models = Reservation.query().fetch(20)
+        models = Reservation.query(Resource.owner == self.user).fetch(20)
         data = []
         for reservation in models:
             data.append(ReservationView(reservation))
@@ -49,6 +49,8 @@ class CreateReservationView(object):
 
 class ResourceView(object):
     def __init__(self, resource_id):
+        # TODO(Ling): Build log_info.
+        self.logged_in, self.user, self.log_url, self.log_msg = autheticate.autheticate()
         self.resource_id = resource_id
         self.resource = utility.get_resource_by_id(self.resource_id)
 
