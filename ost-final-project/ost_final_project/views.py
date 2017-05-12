@@ -1,8 +1,6 @@
 from models import Resource, Reservation, Tag
 import autheticate
 import utility
-import datetime
-import time
 
 
 class HomePageView(object):
@@ -53,6 +51,15 @@ class ResourceView(object):
         self.logged_in, self.user, self.log_url, self.log_msg = autheticate.autheticate()
         self.resource_id = resource_id
         self.resource = utility.get_resource_by_id(self.resource_id)
+        self.reservations = self.reservation_wrapper()
+
+    # TODO(Ling): Build an utility function.
+    def reservation_wrapper(self):
+        reservations = []
+        for reservation_key in self.resource.reservation_keys:
+            reservation = utility.get_reservation_by_id(reservation_key.id())
+            reservations.append(ReservationView(reservation))
+        return reservations
 
 
 class ReservationView(object):

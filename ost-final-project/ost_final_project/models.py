@@ -19,4 +19,4 @@ class Resource(ndb.Model):
     end_time = ndb.TimeProperty()
     tags = ndb.StructuredProperty(Tag, repeated=True)
     owner = ndb.UserProperty()
-    reservations = ndb.StructuredProperty(Reservation, repeated=True)
+    reservation_keys = ndb.KeyProperty('Reservation', repeated=True)

@@ -12,4 +12,8 @@
 <a href="{{ url_for('render_edit_resource', resource_id=resource.key.id()) }}"
    class="btn btn-info pull-right" id="edit-resource" role="button">Edit</a>
 {% endif %}
+{{ view.reservations }}
+{% with type="Reservations", data=view.reservations, user=view.user %}
+    {% include "table_reservation.html" %}
+{% endwith %}
 {% endblock %}

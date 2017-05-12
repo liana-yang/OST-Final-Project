@@ -28,7 +28,10 @@ def get_reservation_by_id(reservation_id):
 
 
 def get_resource_key_by_id(resource_id):
-    return ndb.Key(Resource, resource_id)
+    return ndb.Key(Resource, int(resource_id))
+
+def get_reservation_key_by_id(reservation_id):
+    return ndb.Key(Reservation, int(reservation_id))
 
 
 class NdbJSONEncoder(JSONEncoder):

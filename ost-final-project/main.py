@@ -66,6 +66,10 @@ def render_create_reservation(resource_id):
         reservation.owner = view.user
         reservation.resource_key = utility.get_resource_key_by_id(resource_id)
         reservation.put()
+
+        resource = view.resource
+        resource.reservation_keys.append(reservation.key)
+        resource.put()
         return redirect(url_for('render_home_page'))
     return render_template('create_reservation.html', view=view, form=form)
 
@@ -73,6 +77,11 @@ def render_create_reservation(resource_id):
 @app.route('/delete-reservation/<reservation_id>', methods=['GET', 'POST'])
 def delete_reservation(reservation_id):
     reservation = utility.get_reservation_by_id(reservation_id)
+    resource_key = reservation.resource_key
+    resource = utility.get_resource_by_id(resource_key.id())
+    reservation_idx = resource.reservation_keys.index(reservation.key)
+    del resource.reservation_keys[reservation_idx]
+    resource.put()
     reservation.key.delete()
     return redirect(url_for('render_home_page'))
 
