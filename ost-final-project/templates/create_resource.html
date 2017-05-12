@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% from "_formhelpers.html" import render_field %}
+{% block title %}Create Resource{% endblock %}
+{% include "navbar.html" %}
+{% block content %}
+<div class="container">
+    <h2>Create a new resource!</h2>
+    <form method="post">
+        {{ render_field(form.name) }}
+        {{ render_field(form.date) }}
+        {{ render_field(form.start_time) }}
+        {{ render_field(form.end_time) }}
+        {{ render_field(form.tags) }}
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+{% endblock %}

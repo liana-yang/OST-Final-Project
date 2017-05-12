@@ -1,0 +1,10 @@
+{% extends "bootstrap/base.html" %}
+{% block title %}Resource{% endblock %}
+{% include "navbar.html" %}
+{% block content %}
+<h1>Resource: {{ view.resource.name }}</h1>
+<h1>Start Time: {{ view.resource.start_time }}</h1>
+<h1>End Time: {{ view.resource.end_time }}</h1>
+<h1>Owner: {{ view.resource.owner }}</h1>
+<h1>Tags: {{ view.resource.tags }}</h1>
+{% endblock %}

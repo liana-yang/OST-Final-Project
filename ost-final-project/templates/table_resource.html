@@ -1,0 +1,41 @@
+{% block table_resource %}
+<div class="panel panel-warning">
+    <div class="panel-heading">
+        <h3 class="panel-title">{{ type }}</h3>
+    </div>
+    <div class="panel-body">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Available Date</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th>Tags</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for resource in data %}
+            <tr>
+                <td><a href="/resource/{{ resource.key.id() }}">{{ resource.name }}</a></td>
+                <td>{{ resource.date }}</td>
+                <td>{{ resource.start_time }}</td>
+                <td>{{ resource.end_time }}</td>
+                <td>
+                    {% for tag in resource.tags %}
+                    <span class="label label-warning">{{ tag.name }}</span>
+                    {% endfor %}
+                </td>
+                <td>
+                    <a href="/create-reservation/{{ resource.key.id() }}" class="btn btn-warning pull-right"
+                       id="reserve"
+                       role="button">Reserve</a>
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
