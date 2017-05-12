@@ -2,7 +2,7 @@ from google.appengine.ext import ndb
 
 
 class Reservation(ndb.Model):
-    owner = ndb.StringProperty()  # Take user's nickname as unique ID.
+    owner = ndb.UserProperty()
     resource_key = ndb.KeyProperty('Resource')
     start_time = ndb.TimeProperty()
     end_time = ndb.TimeProperty()
@@ -18,5 +18,5 @@ class Resource(ndb.Model):
     start_time = ndb.TimeProperty()
     end_time = ndb.TimeProperty()
     tags = ndb.StructuredProperty(Tag, repeated=True)
-    owner = ndb.UserProperty()  # Take user's nickname as unique ID.
+    owner = ndb.UserProperty()
     reservations = ndb.StructuredProperty(Reservation, repeated=True)

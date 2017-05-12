@@ -2,9 +2,13 @@
 {% block title %}Resource{% endblock %}
 {% include "navbar.html" %}
 {% block content %}
-<h1>Resource: {{ view.resource.name }}</h1>
-<h1>Start Time: {{ view.resource.start_time }}</h1>
-<h1>End Time: {{ view.resource.end_time }}</h1>
-<h1>Owner: {{ view.resource.owner }}</h1>
-<h1>Tags: {{ view.resource.tags }}</h1>
+{% set resource = view.resource %}
+<h1>Resource: {{ resource.name }}</h1>
+<h1>Start Time: {{ resource.start_time }}</h1>
+<h1>End Time: {{ resource.end_time }}</h1>
+<h1>Owner: {{ resource.owner }}</h1>
+<h1>Tags: {{ resource.tags }}</h1>
+<a href="{{ url_for('render_edit_resource', resource_id=resource.key.id()) }}"
+   class="btn btn-info pull-right" id="edit-resource"
+   role="button">Edit</a>
 {% endblock %}

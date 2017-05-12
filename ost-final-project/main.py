@@ -1,7 +1,8 @@
 import logging
-from ost_final_project.views import HomePageView, CreateResourceView, CreateReservationView, ResourceView
+from ost_final_project.views import HomePageView, EditResourceView, CreateReservationView, ResourceView, EditResourceView
 from ost_final_project.forms import CreateResourceForm, CreateReservationForm
 import ost_final_project.utility as utility
+from ost_final_project.models import Resource
 
 from flask import Flask, render_template, url_for, redirect
 from flask_bootstrap import Bootstrap, WebCDN
@@ -32,15 +33,28 @@ def render_resource(resource_id):
 
 @app.route('/create-resource', methods=['GET', 'POST'])
 def render_create_resource():
-    view = CreateResourceView()
+    resource = Resource()
+    view = EditResourceView(resource)
     form = CreateResourceForm(csrf_enabled=False)
     if form.validate_on_submit():
-        resource = utility.get_resource_from_form(form)
+        resource = utility.update_resource_from_form(form, resource)
         resource.owner = view.user
         resource.put()
         resource_id = resource.key.id()
         return redirect(url_for('render_resource', resource_id=str(resource_id)))
-    return render_template('create_resource.html', view=view, form=form)
+    return render_template('edit_resource.html', view=view, form=form)
+
+
+@app.route('/edit-resource/<resource_id>', methods=['GET', 'POST'])
+def render_edit_resource(resource_id):
+    resource = utility.get_resource_by_id(resource_id)
+    view = EditResourceView(resource)
+    form = CreateResourceForm(csrf_enabled=False)
+    if form.validate_on_submit():
+        resource = utility.update_resource_from_form(form, resource)
+        resource.put()
+        return redirect(url_for('render_resource', resource_id=str(resource_id)))
+    return render_template('edit_resource.html', view=view, form=form)
 
 
 @app.route('/create-reservation/<resource_id>', methods=['GET', 'POST'])

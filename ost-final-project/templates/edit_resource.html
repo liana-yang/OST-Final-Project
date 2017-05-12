@@ -6,11 +6,11 @@
 <div class="container">
     <h2>Create a new resource!</h2>
     <form method="post">
-        {{ render_field(form.name) }}
-        {{ render_field(form.date) }}
-        {{ render_field(form.start_time) }}
-        {{ render_field(form.end_time) }}
-        {{ render_field(form.tags) }}
+        {{ render_field(form.name, view.resource.name) }}
+        {{ render_field(form.date, view.resource.date) }}
+        {{ render_field(form.start_time, view.resource.start_time) }}
+        {{ render_field(form.end_time, view.resource.end_time) }}
+        {{ render_field(form.tags, view.resource.tags) }}
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 </div>

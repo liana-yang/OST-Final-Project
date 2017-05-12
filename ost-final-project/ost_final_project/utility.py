@@ -6,10 +6,13 @@ from datetime import date, time
 from models import Resource, Reservation
 
 
-def get_resource_from_form(form):
-    return Resource(name=form.name.data, date=form.date.data, start_time=form.start_time.data,
-                    end_time=form.end_time.data,
-                    tags=[Tag(name="data.tags")])
+def update_resource_from_form(form, resource):
+    resource.name = form.name.data
+    resource.date = form.date.data
+    resource.start_time = form.start_time.data
+    resource.end_time = form.end_time.data
+    resource.tags = [Tag(name="data.tags")]
+    return resource
 
 
 def get_reservation_from_form(form):

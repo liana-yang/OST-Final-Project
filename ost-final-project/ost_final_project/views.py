@@ -1,6 +1,8 @@
 from models import Resource, Reservation, Tag
 import autheticate
 import utility
+import datetime
+import time
 
 
 class HomePageView(object):
@@ -30,10 +32,11 @@ class HomePageView(object):
         return data
 
 
-class CreateResourceView(object):
-    def __init__(self):
+class EditResourceView(object):
+    def __init__(self, resource):
         # TODO(Ling): Build log_info.
         self.logged_in, self.user, self.log_url, self.log_msg = autheticate.autheticate()
+        self.resource = resource
 
 
 class CreateReservationView(object):

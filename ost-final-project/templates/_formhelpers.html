@@ -1,8 +1,17 @@
-{% macro render_field(field) %}
+{% macro render_field(field, value) %}
 <div class="form-group row">
     <label for="start-time-input" class="col-2 col-form-label">{{ field.label }}</label>
     <div class="col-10">
-        {{ field(class_="form-control") }}
+        {% if value is none %}
+            {% set value = "" %}
+        {% endif %}
+
+        {% if field.type == 'TimeField' %}
+            {{ field(class_="form-control", value="%s:%s"|format(value.hour, value.minute)) }}
+        {% else %}
+            {{ field(class_="form-control", value=value) }}
+        {% endif %}
+
         {% if field.errors %}
         <ul class=errors>
             {% for error in field.errors %}
