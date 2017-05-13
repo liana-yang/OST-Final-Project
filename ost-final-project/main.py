@@ -5,7 +5,7 @@ from flask import Flask, render_template, url_for, redirect
 from flask_bootstrap import Bootstrap
 from ost_final_project.forms import CreateResourceForm, CreateReservationForm
 from ost_final_project.models import Resource
-from ost_final_project.views import HomePageView, CreateReservationView, ResourceView, \
+from ost_final_project.views import HomePageView, CreateReservationView, ResourcePageView, \
     EditResourceView
 
 
@@ -27,14 +27,14 @@ def render_home_page():
 
 @app.route('/resource/<resource_id>')
 def render_resource(resource_id):
-    view = ResourceView(resource_id)
+    view = ResourcePageView(resource_id)
     return render_template('resource.html', view=view)
 
 
 @app.route('/create-resource', methods=['GET', 'POST'])
 def render_create_resource():
     resource = Resource()
-    view = EditResourceView(resource)
+    view = EditResourceView(resource, 'Create A New Resource')
     form = CreateResourceForm(csrf_enabled=False)
     if form.validate_on_submit():
         resource = utility.update_resource_from_form(form, resource)
@@ -48,7 +48,7 @@ def render_create_resource():
 @app.route('/edit-resource/<resource_id>', methods=['GET', 'POST'])
 def render_edit_resource(resource_id):
     resource = utility.get_resource_by_id(resource_id)
-    view = EditResourceView(resource)
+    view = EditResourceView(resource, 'Edit Resource: ' + resource.name)
     form = CreateResourceForm(csrf_enabled=False)
     if form.validate_on_submit():
         resource = utility.update_resource_from_form(form, resource)

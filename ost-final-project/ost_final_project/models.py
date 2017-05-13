@@ -10,6 +10,7 @@ class Reservation(ndb.Model):
 
 class Tag(ndb.Model):
     name = ndb.StringProperty()
+    # TODO(Ling): Add resource_keys in accelerate the search.
 
 
 class Resource(ndb.Model):
@@ -17,6 +18,6 @@ class Resource(ndb.Model):
     date = ndb.DateProperty()
     start_time = ndb.TimeProperty()
     end_time = ndb.TimeProperty()
-    tags = ndb.StructuredProperty(Tag, repeated=True)
+    tag_keys = ndb.KeyProperty('Tag', repeated=True)
     owner = ndb.UserProperty()
     reservation_keys = ndb.KeyProperty('Reservation', repeated=True)

@@ -1,18 +1,18 @@
 {% extends "bootstrap/base.html" %}
 {% block title %}Resource{% endblock %}
 {% include "navbar.html" %}
+
 {% block content %}
-{% set resource = view.resource %}
-<h1>Resource: {{ resource.name }}</h1>
-<h1>Start Time: {{ resource.start_time }}</h1>
-<h1>End Time: {{ resource.end_time }}</h1>
-<h1>Owner: {{ resource.owner }}</h1>
-<h1>Tags: {{ resource.tags }}</h1>
-{% if resource.owner == view.user %}
-<a href="{{ url_for('render_edit_resource', resource_id=resource.key.id()) }}"
-   class="btn btn-info pull-right" id="edit-resource" role="button">Edit</a>
-{% endif %}
-{% with type="Reservations", data=view.reservations, user=view.user %}
-    {% include "table_reservation.html" %}
-{% endwith %}
+    {% set resource_table_view = view.resource_table_view %}
+    {% set resources = view.resource_table_view.resources %}
+
+    {% with type=resource_table_view.title, data=resources, user=view.user %}
+        {% include "table_resource.html" %}
+    {% endwith %}
+
+    {% for resource in resources %}
+        {% with type="Reservations", data=resource.reservations, user=view.user %}
+            {% include "table_reservation.html" %}
+        {% endwith %}
+    {% endfor %}
 {% endblock %}

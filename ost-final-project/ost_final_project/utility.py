@@ -5,7 +5,7 @@ from google.appengine.api import users
 from google.appengine.ext import ndb
 
 from flask.json import JSONEncoder
-from models import Resource, Reservation
+from models import Resource, Reservation, Tag
 from models import Tag
 from wtforms_components import TimeRange
 
@@ -28,7 +28,14 @@ def update_resource_from_form(form, resource):
     resource.date = form.date.data
     resource.start_time = form.start_time.data
     resource.end_time = form.end_time.data
-    resource.tags = [Tag(name="data.tags")]
+    tag_keys = []
+    for tag_str in form.tags.data.split(","):
+        tag = tag_exists(tag_str)
+        if tag is None:
+            tag = Tag(name=tag_str)
+            tag.put()
+        tag_keys.append(tag.key)
+    resource.tag_keys = tag_keys
     return resource
 
 
@@ -44,6 +51,10 @@ def get_reservation_by_id(reservation_id):
     return Reservation.get_by_id(int(reservation_id))
 
 
+def get_tag_by_id(tag_id):
+    return Tag.get_by_id(int(tag_id))
+
+
 def get_resource_key_by_id(resource_id):
     return ndb.Key(Resource, int(resource_id))
 
@@ -52,18 +63,18 @@ def get_reservation_key_by_id(reservation_id):
     return ndb.Key(Reservation, int(reservation_id))
 
 
-def filter_by_current_datetime(reservation_views):
+def filter_by_current_datetime(reservations):
     current_date = datetime.now().date()
     current_time = datetime.now().time()
-    valid_reservation_views = []
-    for reservation_view in reservation_views:
-        resource = reservation_view.resource
+    valid_reservations = []
+    for reservation in reservations:
+        resource = reservation.resource
         if resource.date < current_date:
             continue
-        if reservation_view.end_time <= current_time:
+        if reservation.end_time <= current_time:
             continue
-        valid_reservation_views.append(reservation_view)
-    return valid_reservation_views
+        valid_reservations.append(reservation)
+    return valid_reservations
 
 
 def add_timerange_validators(form, resource_id):
@@ -71,6 +82,11 @@ def add_timerange_validators(form, resource_id):
     form.start_time.validators.append(TimeRange(min=resource.start_time))
     form.end_time.validators.append(TimeRange(max=resource.end_time))
     return form
+
+
+def tag_exists(tag_str):
+    tag = Tag.query(Tag.name == tag_str).get()
+    return tag
 
 
 class NdbJSONEncoder(JSONEncoder):

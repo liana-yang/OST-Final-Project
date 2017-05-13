@@ -8,6 +8,8 @@
 
         {% if field.type == 'TimeField' %}
             {{ field(class_="form-control", value="%s:%s"|format(value.hour, value.minute)) }}
+        {% elif field.name == 'tags' %}
+            {{ field(class_="form-control", value=value, data_role="tagsinput") }}
         {% else %}
             {{ field(class_="form-control", value=value) }}
         {% endif %}
