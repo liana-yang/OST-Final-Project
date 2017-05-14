@@ -25,7 +25,8 @@
                         <td>{{ resource.end_time }}</td>
                         <td>
                             {% for tag in resource.tags %}
-                                <span class="label label-info">{{ tag.name }}</span>
+                                <a href="/tag/{{ tag.key.id() }}" class="label label-info" id="tag"
+                                   role="button">{{ tag.name }}</a>
                             {% endfor %}
                         </td>
                         <td>{{ resource.owner }}</td>

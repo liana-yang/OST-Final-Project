@@ -16,17 +16,17 @@ class HomePageView(object):
 
     def get_all_resources(self):
         # TODO(Ling): Implement multiple pages.
-        data = Resource.query().fetch(20)
+        data = Resource.query().fetch()
         return data
 
     def get_my_resources(self):
         # TODO(Ling): Implement multiple pages.
-        data = Resource.query(Resource.owner == self.user).fetch(20)
+        data = Resource.query(Resource.owner == self.user).fetch()
         return data
 
     def get_my_reservations(self):
         # TODO(Ling): Implement multiple pages.
-        data = Reservation.query(Reservation.owner == self.user).fetch(20)
+        data = Reservation.query(Reservation.owner == self.user).fetch()
         return data
 
 
@@ -87,6 +87,25 @@ class ResourcePageView(object):
         self.resource_id = resource_id
         self.resource = utility.get_resource_by_id(self.resource_id)
         self.resource_table_view = ResourceTableView([self.resource], 'Resource: ' + self.resource.name)
+
+
+class TagPageView(object):
+    def __init__(self, tag_id):
+        # TODO(Ling): Build log_info.
+        self.logged_in, self.user, self.log_url, self.log_msg = utility.autheticate()
+        self.tag_id = tag_id
+        self.tag = utility.get_tag_by_id(self.tag_id)
+        self.resource_table_view = ResourceTableView(self.get_resources(), 'Resources With Tag: ' + self.tag.name)
+
+    def get_resources(self):
+        # TODO(Ling): Implement multiple pages.
+        # TODO(Ling): Add KeyProperty to Tag model.
+        all_resources = Resource.query().fetch()
+        data = []
+        for resource in all_resources:
+            if self.tag.key in resource.tag_keys:
+                data.append(resource)
+        return data
 
 
 class ReservationWrapper(object):

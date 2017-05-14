@@ -6,7 +6,7 @@ from flask_bootstrap import Bootstrap
 from ost_final_project.forms import CreateResourceForm, CreateReservationForm
 from ost_final_project.models import Resource
 from ost_final_project.views import HomePageView, CreateReservationView, ResourcePageView, \
-    EditResourceView
+    EditResourceView, TagPageView
 
 
 def create_app():
@@ -29,6 +29,12 @@ def render_home_page():
 def render_resource(resource_id):
     view = ResourcePageView(resource_id)
     return render_template('resource.html', view=view)
+
+
+@app.route('/tag/<tag_id>')
+def render_tag(tag_id):
+    view = TagPageView(tag_id)
+    return render_template('tag.html', view=view)
 
 
 @app.route('/create-resource', methods=['GET', 'POST'])
