@@ -17,3 +17,5 @@ libraries:
   version: "2.5.2"
 - name: flask_bootstrap
   version: "3.3.7.1"
+- name: Flask-WTF
+  version: "0.14"
