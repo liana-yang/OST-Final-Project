@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% from "_formhelpers.html" import render_field %}
+{% block title %}Create Reservcation{% endblock %}
+{% include "navbar.html" %}
+{% block content %}
+<div class="container">
+    <h2>Create a new reservation!</h2>
+    {% set resource = view.resource %}
+    <div class="panel panel-default">
+        <div class="panel-heading">Resource Information</div>
+        <div class="panel-body">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Available Date</th>
+                    <th>Start Time</th>
+                    <th>End Time</th>
+                    <th>Tags</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td><a href="/resource/{{ resource.key.id() }}">{{ resource.name }}</a></td>
+                    <td>{{ resource.date }}</td>
+                    <td>{{ resource.start_time }}</td>
+                    <td>{{ resource.end_time }}</td>
+                    <td>
+                        {% for tag in resource.tags %}
+                        <span class="label label-warning">{{ tag.name }}</span>
+                        {% endfor %}
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <form method="post">
+        {{ render_field(form.start_time, none) }}
+        {{ render_field(form.end_time, none) }}
+        <button type="submit" class="btn btn-primary">Reserve</button>
+    </form>
+</div>
+{% endblock %}

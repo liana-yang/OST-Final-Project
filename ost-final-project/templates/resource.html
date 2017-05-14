@@ -1,0 +1,18 @@
+{% extends "bootstrap/base.html" %}
+{% block title %}Resource{% endblock %}
+{% include "navbar.html" %}
+
+{% block content %}
+    {% set resource_table_view = view.resource_table_view %}
+    {% set resources = resource_table_view.resources %}
+
+    {% with type=resource_table_view.title, data=resources, user=view.user %}
+        {% include "table_resource.html" %}
+    {% endwith %}
+
+    {% for resource in resources %}
+        {% with type="Reservations", data=resource.reservations, user=view.user %}
+            {% include "table_reservation.html" %}
+        {% endwith %}
+    {% endfor %}
+{% endblock %}

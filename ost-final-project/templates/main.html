@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}My Webpage{% endblock %}
+{% include "navbar.html" %}
+
+{% if view.logged_in %}
+    {% with type=view.my_reservations_table_view.title, data=view.my_reservations_table_view.reservations, user=view.user %}
+        {% include "table_reservation.html" %}
+    {% endwith %}
+    {% with type=view.my_resources_table_view.title, data=view.my_resources_table_view.resources, user=view.user %}
+        {% include "table_resource.html" %}
+    {% endwith %}
+{% endif %}
+
+{% with type=view.all_resources_table_view.title, data=view.all_resources_table_view.resources, user=view.user %}
+    {% include "table_resource.html" %}
+{% endwith %}

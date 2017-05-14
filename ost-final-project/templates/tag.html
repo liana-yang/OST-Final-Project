@@ -1,0 +1,14 @@
+{% extends "bootstrap/base.html" %}
+{% block title %}Tag{% endblock %}
+{% include "navbar.html" %}
+
+{% block content %}
+    {% set resource_table_view = view.resource_table_view %}
+    {% set resources = resource_table_view.resources %}
+    {% set tag = view.tag %}
+    <span class="glyphicon glyphicon-tag"></span><span class="label label-info">{{ tag.name }}</span>
+
+    {% with type=resource_table_view.title, data=resources, user=view.user %}
+        {% include "table_resource.html" %}
+    {% endwith %}
+{% endblock %}
