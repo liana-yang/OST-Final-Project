@@ -74,7 +74,7 @@ def render_create_reservation(resource_id):
         reservation.resource_key = utility.get_resource_key_by_id(resource_id)
         reservation.put()
 
-        resource = view.resource
+        resource = view.resource.model
         resource.reservation_keys.append(reservation.key)
         resource.put()
         return redirect(url_for('render_home_page'))

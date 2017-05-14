@@ -1,5 +1,3 @@
-application: ost-final-project
-version: 1
 runtime: python27
 api_version: 1
 threadsafe: yes
@@ -15,7 +13,3 @@ handlers:
 libraries:
 - name: webapp2
   version: "2.5.2"
-- name: flask_bootstrap
-  version: "3.3.7.1"
-- name: Flask-WTF
-  version: "0.14"
